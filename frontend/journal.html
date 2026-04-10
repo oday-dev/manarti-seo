@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>القيود اليومية - منارتي</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="wrapper d-flex">
+  <nav id="sidebar" class="sidebar">
+    <div class="sidebar-brand"><i class="bi bi-calculator-fill me-2"></i><span>منارتي محاسبة</span></div>
+    <ul class="sidebar-nav">
+      <li class="nav-item"><a href="index.html" class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i><span>لوحة التحكم</span></a></li>
+      <li class="nav-item"><a href="accounts.html" class="nav-link" data-page="accounts"><i class="bi bi-diagram-3"></i><span>شجرة الحسابات</span></a></li>
+      <li class="nav-item"><a href="parties.html" class="nav-link" data-page="parties"><i class="bi bi-people"></i><span>العملاء والموردين</span></a></li>
+      <li class="nav-item"><a href="journal.html" class="nav-link" data-page="journal"><i class="bi bi-journal-text"></i><span>القيود اليومية</span></a></li>
+      <li class="nav-item"><a href="reports.html" class="nav-link" data-page="reports"><i class="bi bi-bar-chart-line"></i><span>التقارير المالية</span></a></li>
+      <li class="nav-item"><a href="settings.html" class="nav-link" data-page="settings"><i class="bi bi-gear"></i><span>الإعدادات</span></a></li>
+    </ul>
+    <div class="sidebar-footer"><small>نظام منارتي المحاسبي v1.0</small></div>
+  </nav>
+
+  <div class="main-content flex-grow-1">
+    <nav class="top-navbar navbar">
+      <div class="container-fluid">
+        <button class="btn btn-link sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-4"></i></button>
+        <h1 class="navbar-title mb-0 fs-5 fw-bold">القيود اليومية</h1>
+        <div class="ms-auto"><span class="text-muted small" id="currentDate"></span></div>
+      </div>
+    </nav>
+
+    <div class="page-content">
+      <!-- Two-column layout: form on right, list on left -->
+      <div class="row g-4">
+
+        <!-- New Entry Form -->
+        <div class="col-lg-5">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-header bg-transparent border-0 pt-3">
+              <h5 class="card-title fw-bold mb-0">
+                <i class="bi bi-plus-circle text-primary me-2"></i>قيد يومي جديد
+              </h5>
+            </div>
+            <div class="card-body">
+              <form id="entryForm">
+                <div class="row g-2 mb-3">
+                  <div class="col-6">
+                    <label class="form-label">التاريخ <span class="text-danger">*</span></label>
+                    <input type="date" class="form-control" id="entryDate" required>
+                  </div>
+                  <div class="col-6">
+                    <label class="form-label">رقم المرجع</label>
+                    <input type="text" class="form-control" id="entryReference" placeholder="تلقائي">
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label">البيان <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="entryDescription" required placeholder="وصف القيد المحاسبي">
+                  </div>
+                </div>
+
+                <!-- Entry Lines -->
+                <div class="mb-2">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <label class="form-label mb-0 fw-bold">سطور القيد</label>
+                    <button type="button" class="btn btn-sm btn-outline-primary" onclick="addEntryLine()">
+                      <i class="bi bi-plus"></i> سطر جديد
+                    </button>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table table-sm entry-lines-table mb-1">
+                      <thead class="table-light">
+                        <tr>
+                          <th style="min-width:150px">الحساب</th>
+                          <th style="min-width:80px">مدين</th>
+                          <th style="min-width:80px">دائن</th>
+                          <th style="width:32px"></th>
+                        </tr>
+                      </thead>
+                      <tbody id="entryLines">
+                        <!-- Lines added dynamically -->
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Balance Indicator -->
+                <div id="balanceIndicator" class="balance-indicator balance-error mb-3">
+                  <i class="bi bi-exclamation-circle me-1"></i>
+                  مجموع المدين: <strong>0.00</strong> | مجموع الدائن: <strong>0.00</strong>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100" id="saveEntryBtn">
+                  <i class="bi bi-save me-2"></i>حفظ القيد
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Entries List -->
+        <div class="col-lg-7">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-bottom pt-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5 class="card-title fw-bold mb-0">
+                  <i class="bi bi-list-ul text-primary me-2"></i>سجل القيود
+                </h5>
+              </div>
+              <!-- Filter -->
+              <div class="row g-2">
+                <div class="col-md-4">
+                  <input type="date" class="form-control form-control-sm" id="filterFrom" placeholder="من">
+                </div>
+                <div class="col-md-4">
+                  <input type="date" class="form-control form-control-sm" id="filterTo" placeholder="إلى">
+                </div>
+                <div class="col-md-4">
+                  <button class="btn btn-sm btn-primary w-100" onclick="loadEntries()">
+                    <i class="bi bi-funnel me-1"></i>تصفية
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0" style="font-size:0.82rem">
+                  <thead class="table-light">
+                    <tr>
+                      <th>التاريخ</th>
+                      <th>المرجع</th>
+                      <th>البيان</th>
+                      <th class="text-end">المبلغ</th>
+                      <th class="text-center">إجراءات</th>
+                    </tr>
+                  </thead>
+                  <tbody id="entriesBody">
+                    <tr><td colspan="5" class="text-center py-3"><div class="spinner-border spinner-border-sm text-primary"></div></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Entry Modal -->
+<div class="modal fade" id="viewEntryModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">تفاصيل القيد المحاسبي</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body" id="viewEntryContent"></div>
+      <div class="modal-footer no-print">
+        <button class="btn btn-outline-secondary" onclick="window.print()"><i class="bi bi-printer me-1"></i>طباعة</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="position-fixed bottom-0 start-0 p-3" style="z-index:9999">
+  <div id="toast" class="toast align-items-center text-bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body" id="toastMessage"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+  let accounts = [];
+  let lineCount = 0;
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    setActiveNav('journal');
+    document.getElementById('entryDate').value = today();
+    document.getElementById('entryForm').addEventListener('submit', saveEntry);
+
+    accounts = await apiGet('/accounts');
+    // Add two lines by default
+    addEntryLine();
+    addEntryLine();
+    loadEntries();
+  });
+
+  function addEntryLine(debitAmt = '', creditAmt = '', accountId = '', desc = '') {
+    lineCount++;
+    const tbody = document.getElementById('entryLines');
+    const leafAccounts = accounts.filter(a => !a.is_parent);
+
+    const tr = document.createElement('tr');
+    tr.id = `line-${lineCount}`;
+    const lineId = `line-${lineCount}`;
+    tr.innerHTML = `
+      <td>
+        <select class="form-select form-select-sm account-select" onchange="updateTotals()">
+          <option value="">-- اختر حساباً --</option>
+        </select>
+      </td>
+      <td><input type="number" class="form-control form-control-sm debit-input" value="${Number(debitAmt) || ''}" min="0" step="0.01" placeholder="0.00" oninput="clearCredit(this); updateTotals()"></td>
+      <td><input type="number" class="form-control form-control-sm credit-input" value="${Number(creditAmt) || ''}" min="0" step="0.01" placeholder="0.00" oninput="clearDebit(this); updateTotals()"></td>
+      <td><button type="button" class="btn btn-sm btn-link text-danger p-0" data-line="${lineId}" onclick="removeLine(this.dataset.line)"><i class="bi bi-x-circle"></i></button></td>
+    `;
+    // Build select options using DOM API (avoids XSS)
+    const sel = tr.querySelector('.account-select');
+    leafAccounts.forEach(a => {
+      const opt = document.createElement('option');
+      opt.value = a.id;
+      opt.textContent = `${a.code} - ${a.name_ar}`;
+      if (a.id === accountId) opt.selected = true;
+      sel.appendChild(opt);
+    });
+    tbody.appendChild(tr);
+    updateTotals();
+  }
+
+  function clearCredit(debitInput) {
+    const row = debitInput.closest('tr');
+    if (debitInput.value && parseFloat(debitInput.value) > 0) {
+      row.querySelector('.credit-input').value = '';
+    }
+  }
+
+  function clearDebit(creditInput) {
+    const row = creditInput.closest('tr');
+    if (creditInput.value && parseFloat(creditInput.value) > 0) {
+      row.querySelector('.debit-input').value = '';
+    }
+  }
+
+  function removeLine(lineId) {
+    const lines = document.querySelectorAll('#entryLines tr');
+    if (lines.length <= 2) { showError('يجب أن يحتوي القيد على سطرين على الأقل'); return; }
+    document.getElementById(lineId)?.remove();
+    updateTotals();
+  }
+
+  function updateTotals() {
+    const debitInputs = document.querySelectorAll('.debit-input');
+    const creditInputs = document.querySelectorAll('.credit-input');
+    let totalD = 0, totalC = 0;
+    debitInputs.forEach(inp => { totalD += parseFloat(inp.value) || 0; });
+    creditInputs.forEach(inp => { totalC += parseFloat(inp.value) || 0; });
+
+    const indicator = document.getElementById('balanceIndicator');
+    const balanced = Math.abs(totalD - totalC) < 0.001 && totalD > 0;
+    indicator.className = `balance-indicator ${balanced ? 'balance-ok' : 'balance-error'} mb-3`;
+    if (balanced) {
+      indicator.innerHTML = `<i class="bi bi-check-circle me-1"></i>القيد متوازن ✓ المبلغ: <strong>${totalD.toFixed(2)}</strong>`;
+    } else {
+      indicator.innerHTML = `<i class="bi bi-exclamation-circle me-1"></i>مجموع المدين: <strong>${totalD.toFixed(2)}</strong> | مجموع الدائن: <strong>${totalC.toFixed(2)}</strong>`;
+    }
+  }
+
+  async function saveEntry(e) {
+    e.preventDefault();
+    const btn = document.getElementById('saveEntryBtn');
+
+    const lines = [];
+    document.querySelectorAll('#entryLines tr').forEach(tr => {
+      const accountId = tr.querySelector('.account-select')?.value;
+      const debit = parseFloat(tr.querySelector('.debit-input')?.value) || 0;
+      const credit = parseFloat(tr.querySelector('.credit-input')?.value) || 0;
+      if (accountId && (debit > 0 || credit > 0)) {
+        lines.push({ account_id: Number(accountId), debit, credit });
+      }
+    });
+
+    if (lines.length < 2) { showError('يجب إضافة سطرين على الأقل للقيد'); return; }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> جاري الحفظ...';
+    try {
+      await apiPost('/journal-entries', {
+        date: document.getElementById('entryDate').value,
+        reference: document.getElementById('entryReference').value.trim(),
+        description: document.getElementById('entryDescription').value.trim(),
+        lines
+      });
+      showToast('تم حفظ القيد بنجاح');
+      resetForm();
+      loadEntries();
+    } catch (err) { showError(err.message); }
+    finally { btn.disabled = false; btn.innerHTML = '<i class="bi bi-save me-2"></i>حفظ القيد'; }
+  }
+
+  function resetForm() {
+    document.getElementById('entryForm').reset();
+    document.getElementById('entryDate').value = today();
+    document.getElementById('entryLines').innerHTML = '';
+    lineCount = 0;
+    addEntryLine();
+    addEntryLine();
+  }
+
+  async function loadEntries() {
+    const tbody = document.getElementById('entriesBody');
+    showLoading(tbody, 5);
+    try {
+      const from = document.getElementById('filterFrom').value;
+      const to = document.getElementById('filterTo').value;
+      let url = '/journal-entries';
+      const params = [];
+      if (from) params.push(`from=${from}`);
+      if (to) params.push(`to=${to}`);
+      if (params.length) url += '?' + params.join('&');
+      const entries = await apiGet(url);
+      if (!entries.length) { showEmpty(tbody, 5, 'لا توجد قيود'); return; }
+      tbody.innerHTML = entries.map(e => `
+        <tr>
+          <td>${escapeHtml(formatDate(e.date))}</td>
+          <td><code>${escapeHtml(e.reference)}</code></td>
+          <td class="text-truncate" style="max-width:200px">${escapeHtml(e.description)}</td>
+          <td class="text-end">${formatCurrency(e.total_debit)}</td>
+          <td class="text-center">
+            <button class="btn btn-sm btn-outline-info me-1" data-id="${e.id}" onclick="viewEntry(parseInt(this.dataset.id))"><i class="bi bi-eye"></i></button>
+            <button class="btn btn-sm btn-outline-danger" data-id="${e.id}" data-ref="${escapeHtml(e.reference)}" onclick="deleteEntry(parseInt(this.dataset.id), this.dataset.ref)"><i class="bi bi-trash"></i></button>
+          </td>
+        </tr>`).join('');
+    } catch (err) { showError(err.message); tbody.innerHTML = ''; }
+  }
+
+  async function viewEntry(id) {
+    const content = document.getElementById('viewEntryContent');
+    content.innerHTML = '<div class="text-center py-3"><div class="spinner-border spinner-border-sm"></div></div>';
+    bootstrap.Modal.getOrCreateInstance(document.getElementById('viewEntryModal')).show();
+    try {
+      const entry = await apiGet(`/journal-entries/${id}`);
+      content.innerHTML = `
+        <div class="mb-3">
+          <div class="row g-2">
+            <div class="col-sm-4"><strong>التاريخ:</strong> ${escapeHtml(formatDate(entry.date))}</div>
+            <div class="col-sm-4"><strong>المرجع:</strong> ${escapeHtml(entry.reference)}</div>
+            <div class="col-sm-12"><strong>البيان:</strong> ${escapeHtml(entry.description)}</div>
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered table-sm">
+            <thead class="table-light">
+              <tr><th>#</th><th>الحساب</th><th class="text-end">مدين</th><th class="text-end">دائن</th></tr>
+            </thead>
+            <tbody>
+              ${entry.lines.map((l, i) => `
+                <tr>
+                  <td>${i+1}</td>
+                  <td>${escapeHtml(l.account_code || '')} - ${escapeHtml(l.account_name_ar || '')}</td>
+                  <td class="text-end">${l.debit ? formatCurrency(l.debit) : ''}</td>
+                  <td class="text-end">${l.credit ? formatCurrency(l.credit) : ''}</td>
+                </tr>`).join('')}
+            </tbody>
+            <tfoot>
+              <tr class="table-secondary fw-bold">
+                <td colspan="2" class="text-start">الإجمالي</td>
+                <td class="text-end">${formatCurrency(entry.total_debit)}</td>
+                <td class="text-end">${formatCurrency(entry.total_credit)}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>`;
+    } catch (err) { content.innerHTML = `<div class="alert alert-danger">${err.message}</div>`; }
+  }
+
+  async function deleteEntry(id, ref) {
+    if (!confirmDelete(ref)) return;
+    try {
+      await apiDelete(`/journal-entries/${id}`);
+      showToast('تم حذف القيد');
+      loadEntries();
+    } catch (err) { showError(err.message); }
+  }
+</script>
+</body>
+</html>
