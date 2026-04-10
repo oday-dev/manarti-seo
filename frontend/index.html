@@ -268,7 +268,7 @@
       if (data.recent_entries.length > 0) {
         tbody.innerHTML = data.recent_entries.map(e => `
           <tr>
-            <td>${formatDate(e.date)}</td>
+            <td>${escapeHtml(formatDate(e.date))}</td>
             <td class="text-truncate" style="max-width:150px">${escapeHtml(e.description)}</td>
             <td class="text-end">${formatCurrency(e.total_debit || 0)}</td>
           </tr>

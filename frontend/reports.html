@@ -348,7 +348,7 @@
                 <tbody>
                   ${acc.transactions.map(t => `
                     <tr>
-                      <td>${formatDate(t.date)}</td>
+                      <td>${escapeHtml(formatDate(t.date))}</td>
                       <td>${escapeHtml(t.reference||'')}</td>
                       <td>${escapeHtml(t.description||'')}</td>
                       <td class="text-end">${t.debit ? formatCurrency(t.debit) : ''}</td>
@@ -397,7 +397,7 @@
             <tbody>
               ${data.transactions.length ? data.transactions.map(t => `
                 <tr>
-                  <td>${formatDate(t.date)}</td>
+                  <td>${escapeHtml(formatDate(t.date))}</td>
                   <td>${escapeHtml(t.reference||'')}</td>
                   <td>${escapeHtml(t.description||'')}</td>
                   <td class="text-end">${t.debit ? formatCurrency(t.debit) : ''}</td>

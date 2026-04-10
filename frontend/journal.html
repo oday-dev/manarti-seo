@@ -318,7 +318,7 @@
       if (!entries.length) { showEmpty(tbody, 5, 'لا توجد قيود'); return; }
       tbody.innerHTML = entries.map(e => `
         <tr>
-          <td>${formatDate(e.date)}</td>
+          <td>${escapeHtml(formatDate(e.date))}</td>
           <td><code>${escapeHtml(e.reference)}</code></td>
           <td class="text-truncate" style="max-width:200px">${escapeHtml(e.description)}</td>
           <td class="text-end">${formatCurrency(e.total_debit)}</td>
@@ -339,7 +339,7 @@
       content.innerHTML = `
         <div class="mb-3">
           <div class="row g-2">
-            <div class="col-sm-4"><strong>التاريخ:</strong> ${formatDate(entry.date)}</div>
+            <div class="col-sm-4"><strong>التاريخ:</strong> ${escapeHtml(formatDate(entry.date))}</div>
             <div class="col-sm-4"><strong>المرجع:</strong> ${escapeHtml(entry.reference)}</div>
             <div class="col-sm-12"><strong>البيان:</strong> ${escapeHtml(entry.description)}</div>
           </div>

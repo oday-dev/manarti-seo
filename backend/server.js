@@ -41,9 +41,6 @@ app.use(express.urlencoded({ extended: true }));
 // Serve static frontend files
 app.use(express.static(path.join(__dirname, '..', 'frontend')));
 
-// Apply rate limiting to all API routes
-app.use('/api', (req, res, next) => next());
-
 // API Routes
 app.use('/api/accounts', require('./routes/accounts'));
 app.use('/api/parties', require('./routes/parties'));
