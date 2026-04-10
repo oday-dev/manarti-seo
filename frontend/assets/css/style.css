@@ -1,0 +1,418 @@
+/* ============================================
+   Manarti Accounting System - Custom Styles
+   نظام منارتي المحاسبي - الأنماط المخصصة
+   ============================================ */
+
+:root {
+  --primary: #4361ee;
+  --primary-light: #eef0fd;
+  --secondary: #6c757d;
+  --success: #2ec4b6;
+  --success-light: #e8f8f7;
+  --danger: #e63946;
+  --danger-light: #fde8e9;
+  --warning: #f4a261;
+  --warning-light: #fef3e8;
+  --info: #4cc9f0;
+  --info-light: #ebf8fd;
+  --dark: #1d1e2c;
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 60px;
+  --navbar-height: 64px;
+  --bg: #f5f6fa;
+  --card-bg: #ffffff;
+  --text-primary: #1d1e2c;
+  --text-muted: #6c757d;
+  --border: #e9ecef;
+  --font: 'Segoe UI', 'Tahoma', Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-primary);
+  overflow-x: hidden;
+}
+
+/* ===== SIDEBAR ===== */
+.wrapper {
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  min-height: 100vh;
+  background: var(--dark);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-brand {
+  padding: 20px 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  white-space: nowrap;
+  color: #fff;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 12px 0;
+  margin: 0;
+  flex: 1;
+}
+
+.sidebar-nav .nav-item {
+  margin: 2px 8px;
+}
+
+.sidebar-nav .nav-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: rgba(255,255,255,0.75);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+  font-size: 0.9rem;
+}
+
+.sidebar-nav .nav-link:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.1);
+}
+
+.sidebar-nav .nav-link.active {
+  color: #fff;
+  background: var(--primary);
+}
+
+.sidebar-nav .nav-link i {
+  font-size: 1.1rem;
+  min-width: 20px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  padding: 16px 20px;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.75rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+  margin-right: var(--sidebar-width);
+  min-height: 100vh;
+  transition: margin 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-navbar {
+  background: var(--card-bg);
+  border-bottom: 1px solid var(--border);
+  height: var(--navbar-height);
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+}
+
+.sidebar-toggle {
+  color: var(--text-muted);
+  border: none;
+  padding: 4px 8px;
+}
+
+.sidebar-toggle:hover { color: var(--primary); }
+
+.navbar-title {
+  color: var(--text-primary);
+}
+
+.page-content {
+  padding: 24px;
+  flex: 1;
+}
+
+/* ===== STAT CARDS ===== */
+.stat-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1) !important;
+}
+
+.stat-label {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+}
+
+.bg-success-soft { background: var(--success-light); }
+.bg-primary-soft { background: var(--primary-light); }
+.bg-info-soft { background: var(--info-light); }
+.bg-warning-soft { background: var(--warning-light); }
+.bg-danger-soft { background: var(--danger-light); }
+
+/* ===== CARDS ===== */
+.card {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.card-header {
+  background: transparent;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ===== TABLES ===== */
+.table {
+  font-size: 0.875rem;
+}
+
+.table th {
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid var(--border);
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.table-hover tbody tr:hover {
+  background: rgba(67, 97, 238, 0.04);
+}
+
+/* ===== BUTTONS ===== */
+.btn {
+  font-size: 0.875rem;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.btn-primary {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover {
+  background: #3a56d4;
+  border-color: #3a56d4;
+}
+
+.btn-sm {
+  padding: 4px 10px;
+  font-size: 0.8rem;
+}
+
+/* ===== FORMS ===== */
+.form-control, .form-select {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.875rem;
+  padding: 8px 12px;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15);
+}
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+/* ===== BADGES ===== */
+.badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* ===== MODALS ===== */
+.modal-content {
+  border: none;
+  border-radius: 16px;
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border);
+  padding: 16px 20px;
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border);
+  padding: 12px 20px;
+}
+
+/* ===== PAGE HEADERS ===== */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.page-header h2 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ===== ACCOUNT TYPES ===== */
+.type-asset { color: #2ec4b6; }
+.type-liability { color: #e63946; }
+.type-equity { color: #4361ee; }
+.type-revenue { color: #2dc653; }
+.type-expense { color: #f77f00; }
+
+/* ===== JOURNAL ENTRY FORM ===== */
+.entry-lines-table .form-control {
+  padding: 6px 8px;
+  font-size: 0.82rem;
+}
+
+.balance-indicator {
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.balance-ok { background: var(--success-light); color: #14a095; }
+.balance-error { background: var(--danger-light); color: var(--danger); }
+
+/* ===== REPORTS ===== */
+.report-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+
+.report-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--primary);
+}
+
+.report-section-title {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 8px 0 4px;
+  margin-top: 12px;
+}
+
+.report-total {
+  font-weight: 700;
+  border-top: 2px solid var(--border);
+  padding-top: 8px;
+}
+
+/* ===== TREE VIEW ===== */
+.account-tree .parent-account {
+  font-weight: 600;
+  background: rgba(67, 97, 238, 0.04);
+}
+
+.account-tree .child-account td:first-child {
+  padding-right: 2.5rem;
+}
+
+/* ===== TOAST ===== */
+.toast {
+  min-width: 250px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .sidebar {
+    transform: translateX(100%);
+    width: var(--sidebar-width);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-content {
+    margin-right: 0;
+  }
+
+  .page-content {
+    padding: 16px;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.25); }
+
+/* Print styles */
+@media print {
+  .sidebar, .top-navbar, .no-print { display: none !important; }
+  .main-content { margin-right: 0; }
+  .page-content { padding: 0; }
+  .report-card { border: none; padding: 0; }
+}
+
+/* Number input - remove arrows for RTL */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  opacity: 1;
+}

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الإعدادات - منارتي</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div class="wrapper d-flex">
+  <nav id="sidebar" class="sidebar">
+    <div class="sidebar-brand"><i class="bi bi-calculator-fill me-2"></i><span>منارتي محاسبة</span></div>
+    <ul class="sidebar-nav">
+      <li class="nav-item"><a href="index.html" class="nav-link" data-page="dashboard"><i class="bi bi-speedometer2"></i><span>لوحة التحكم</span></a></li>
+      <li class="nav-item"><a href="accounts.html" class="nav-link" data-page="accounts"><i class="bi bi-diagram-3"></i><span>شجرة الحسابات</span></a></li>
+      <li class="nav-item"><a href="parties.html" class="nav-link" data-page="parties"><i class="bi bi-people"></i><span>العملاء والموردين</span></a></li>
+      <li class="nav-item"><a href="journal.html" class="nav-link" data-page="journal"><i class="bi bi-journal-text"></i><span>القيود اليومية</span></a></li>
+      <li class="nav-item"><a href="reports.html" class="nav-link" data-page="reports"><i class="bi bi-bar-chart-line"></i><span>التقارير المالية</span></a></li>
+      <li class="nav-item"><a href="settings.html" class="nav-link" data-page="settings"><i class="bi bi-gear"></i><span>الإعدادات</span></a></li>
+    </ul>
+    <div class="sidebar-footer"><small>نظام منارتي المحاسبي v1.0</small></div>
+  </nav>
+
+  <div class="main-content flex-grow-1">
+    <nav class="top-navbar navbar">
+      <div class="container-fluid">
+        <button class="btn btn-link sidebar-toggle" id="sidebarToggle"><i class="bi bi-list fs-4"></i></button>
+        <h1 class="navbar-title mb-0 fs-5 fw-bold">الإعدادات</h1>
+        <div class="ms-auto"><span class="text-muted small" id="currentDate"></span></div>
+      </div>
+    </nav>
+
+    <div class="page-content">
+      <div class="page-header">
+        <h2><i class="bi bi-gear me-2 text-primary"></i>إعدادات النظام</h2>
+      </div>
+
+      <div class="row g-4">
+        <!-- Company Settings -->
+        <div class="col-md-8">
+          <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-bottom">
+              <h6 class="card-title fw-bold mb-0"><i class="bi bi-building me-2 text-primary"></i>بيانات الشركة</h6>
+            </div>
+            <div class="card-body">
+              <form id="settingsForm">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label">اسم الشركة (عربي)</label>
+                    <input type="text" class="form-control" id="companyNameAr">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">اسم الشركة (إنجليزي)</label>
+                    <input type="text" class="form-control" id="companyNameEn">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">العملة (رمز)</label>
+                    <input type="text" class="form-control" id="currency" maxlength="3" placeholder="USD">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">العملة (اسم عربي)</label>
+                    <input type="text" class="form-control" id="currencyAr" placeholder="دولار أمريكي">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">بداية السنة المالية</label>
+                    <input type="date" class="form-control" id="fiscalYearStart">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label">اللغة الافتراضية</label>
+                    <select class="form-select" id="language">
+                      <option value="ar">العربية</option>
+                      <option value="en">English</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="mt-3">
+                  <button type="submit" class="btn btn-primary" id="saveSettingsBtn">
+                    <i class="bi bi-save me-2"></i>حفظ الإعدادات
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Info Cards -->
+        <div class="col-md-4">
+          <div class="card border-0 shadow-sm mb-3">
+            <div class="card-body">
+              <h6 class="fw-bold mb-3"><i class="bi bi-info-circle me-2 text-info"></i>معلومات النظام</h6>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">الإصدار</span>
+                <span class="badge bg-primary">1.0.0</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">قاعدة البيانات</span>
+                <span class="badge bg-success">JSON محلي</span>
+              </div>
+              <div class="d-flex justify-content-between mb-2">
+                <span class="text-muted">حالة الخادم</span>
+                <span class="badge bg-success" id="serverStatus">✓ يعمل</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card border-0 shadow-sm">
+            <div class="card-body">
+              <h6 class="fw-bold mb-3"><i class="bi bi-shield-check me-2 text-success"></i>البيانات والأمان</h6>
+              <p class="text-muted small">بياناتك محفوظة محلياً على جهازك بصيغة JSON. للنسخ الاحتياطي يمكن نسخ ملف <code>backend/data/accounting.json</code></p>
+              <a href="/api/health" target="_blank" class="btn btn-sm btn-outline-info w-100">
+                <i class="bi bi-activity me-1"></i>فحص الخادم
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="position-fixed bottom-0 start-0 p-3" style="z-index:9999">
+  <div id="toast" class="toast align-items-center text-bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body" id="toastMessage"></div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', async () => {
+    setActiveNav('settings');
+    try {
+      const settings = await apiGet('/settings');
+      document.getElementById('companyNameAr').value = settings.company_name_ar || '';
+      document.getElementById('companyNameEn').value = settings.company_name_en || '';
+      document.getElementById('currency').value = settings.currency || 'USD';
+      document.getElementById('currencyAr').value = settings.currency_ar || '';
+      document.getElementById('fiscalYearStart').value = settings.fiscal_year_start || '';
+      document.getElementById('language').value = settings.language || 'ar';
+    } catch (err) {
+      showError('تعذر تحميل الإعدادات');
+    }
+
+    document.getElementById('settingsForm').addEventListener('submit', saveSettings);
+  });
+
+  async function saveSettings(e) {
+    e.preventDefault();
+    const btn = document.getElementById('saveSettingsBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+    try {
+      await apiPut('/settings', {
+        company_name_ar: document.getElementById('companyNameAr').value.trim(),
+        company_name_en: document.getElementById('companyNameEn').value.trim(),
+        currency: document.getElementById('currency').value.trim().toUpperCase(),
+        currency_ar: document.getElementById('currencyAr').value.trim(),
+        fiscal_year_start: document.getElementById('fiscalYearStart').value,
+        language: document.getElementById('language').value
+      });
+      showToast('تم حفظ الإعدادات بنجاح');
+    } catch (err) { showError(err.message); }
+    finally { btn.disabled = false; btn.innerHTML = '<i class="bi bi-save me-2"></i>حفظ الإعدادات'; }
+  }
+</script>
+</body>
+</html>
