@@ -129,7 +129,10 @@
     allAccounts = await apiGet('/accounts');
     const sel = document.getElementById('rptAccountId');
     allAccounts.filter(a => !a.is_parent).forEach(a => {
-      sel.innerHTML += `<option value="${a.id}">${a.code} - ${a.name_ar}</option>`;
+      const opt = document.createElement('option');
+      opt.value = a.id;
+      opt.textContent = `${a.code} - ${a.name_ar}`;
+      sel.appendChild(opt);
     });
 
     generateReport();
@@ -190,7 +193,7 @@
       <div class="report-card">
         <div class="d-flex justify-content-between align-items-start">
           <div class="report-title">ميزان المراجعة</div>
-          <small class="text-muted">${from ? `من ${formatDate(from)}` : ''} ${to ? `إلى ${formatDate(to)}` : ''}</small>
+          <small class="text-muted">${from ? `من ${escapeHtml(formatDate(from))}` : ''} ${to ? `إلى ${escapeHtml(formatDate(to))}` : ''}</small>
         </div>
         <div class="table-responsive">
           <table class="table table-bordered table-sm">
@@ -251,7 +254,7 @@
       <div class="report-card">
         <div class="d-flex justify-content-between align-items-start">
           <div class="report-title">الميزانية العمومية</div>
-          <small class="text-muted">حتى تاريخ: ${formatDate(data.as_of)}</small>
+          <small class="text-muted">حتى تاريخ: ${escapeHtml(formatDate(data.as_of))}</small>
         </div>
         <div class="row g-4">
           <div class="col-md-6">
@@ -291,7 +294,7 @@
       <div class="report-card">
         <div class="d-flex justify-content-between align-items-start">
           <div class="report-title">قائمة الدخل</div>
-          <small class="text-muted">${from ? `من ${formatDate(from)}` : ''} ${to ? `إلى ${formatDate(to)}` : ''}</small>
+          <small class="text-muted">${from ? `من ${escapeHtml(formatDate(from))}` : ''} ${to ? `إلى ${escapeHtml(formatDate(to))}` : ''}</small>
         </div>
         <div class="row g-4">
           <div class="col-md-6">
@@ -384,7 +387,7 @@
       <div class="report-card">
         <div class="d-flex justify-content-between align-items-start">
           <div class="report-title">كشف حساب: ${escapeHtml(data.account.name_ar)}</div>
-          <small class="text-muted">${from ? `من ${formatDate(from)}` : ''} ${to ? `إلى ${formatDate(to)}` : ''}</small>
+          <small class="text-muted">${from ? `من ${escapeHtml(formatDate(from))}` : ''} ${to ? `إلى ${escapeHtml(formatDate(to))}` : ''}</small>
         </div>
         <div class="table-responsive">
           <table class="table table-bordered table-sm">

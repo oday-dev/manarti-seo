@@ -197,23 +197,29 @@
     lineCount++;
     const tbody = document.getElementById('entryLines');
     const leafAccounts = accounts.filter(a => !a.is_parent);
-    const options = leafAccounts.map(a =>
-      `<option value="${a.id}" ${a.id === accountId ? 'selected' : ''}>${a.code} - ${a.name_ar}</option>`
-    ).join('');
 
     const tr = document.createElement('tr');
     tr.id = `line-${lineCount}`;
+    const lineId = `line-${lineCount}`;
     tr.innerHTML = `
       <td>
         <select class="form-select form-select-sm account-select" onchange="updateTotals()">
           <option value="">-- اختر حساباً --</option>
-          ${options}
         </select>
       </td>
-      <td><input type="number" class="form-control form-control-sm debit-input" value="${debitAmt}" min="0" step="0.01" placeholder="0.00" oninput="clearCredit(this); updateTotals()"></td>
-      <td><input type="number" class="form-control form-control-sm credit-input" value="${creditAmt}" min="0" step="0.01" placeholder="0.00" oninput="clearDebit(this); updateTotals()"></td>
-      <td><button type="button" class="btn btn-sm btn-link text-danger p-0" onclick="removeLine('line-${lineCount}')"><i class="bi bi-x-circle"></i></button></td>
+      <td><input type="number" class="form-control form-control-sm debit-input" value="${Number(debitAmt) || ''}" min="0" step="0.01" placeholder="0.00" oninput="clearCredit(this); updateTotals()"></td>
+      <td><input type="number" class="form-control form-control-sm credit-input" value="${Number(creditAmt) || ''}" min="0" step="0.01" placeholder="0.00" oninput="clearDebit(this); updateTotals()"></td>
+      <td><button type="button" class="btn btn-sm btn-link text-danger p-0" data-line="${lineId}" onclick="removeLine(this.dataset.line)"><i class="bi bi-x-circle"></i></button></td>
     `;
+    // Build select options using DOM API (avoids XSS)
+    const sel = tr.querySelector('.account-select');
+    leafAccounts.forEach(a => {
+      const opt = document.createElement('option');
+      opt.value = a.id;
+      opt.textContent = `${a.code} - ${a.name_ar}`;
+      if (a.id === accountId) opt.selected = true;
+      sel.appendChild(opt);
+    });
     tbody.appendChild(tr);
     updateTotals();
   }

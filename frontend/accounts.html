@@ -263,9 +263,16 @@
 
   function populateParentSelect(excludeId = null) {
     const sel = document.getElementById('accParent');
-    sel.innerHTML = '<option value="">بدون (حساب رئيسي)</option>';
+    sel.innerHTML = '';
+    const defaultOpt = document.createElement('option');
+    defaultOpt.value = '';
+    defaultOpt.textContent = 'بدون (حساب رئيسي)';
+    sel.appendChild(defaultOpt);
     allAccounts.filter(a => a.is_parent && a.id !== excludeId).forEach(a => {
-      sel.innerHTML += `<option value="${a.id}">${a.code} - ${a.name_ar}</option>`;
+      const opt = document.createElement('option');
+      opt.value = a.id;
+      opt.textContent = `${a.code} - ${a.name_ar}`;
+      sel.appendChild(opt);
     });
   }
 
